@@ -10,8 +10,10 @@ export interface OHLCData {
   volume: number;
 }
 
-export const fetchApiData = async (): Promise<OHLCData[]> => {
-  const options = {
+// export const fetchApiData = async (): Promise<OHLCData[]> => {
+
+export const fetchApiData = async () => {
+    const options = {
     headers: {
       accept: "application/json",
     },
