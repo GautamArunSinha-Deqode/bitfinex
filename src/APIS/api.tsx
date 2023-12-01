@@ -26,7 +26,7 @@ export const fetchApiData = async () => {
     );
     const data = response.data;
     // console.log("datadatadatadatadata" ,data);
-    const ohlcData: OHLCData[] = data.map((dataPoint) => ({
+    const ohlcData: OHLCData[] = data.map((dataPoint:any) => ({
       timestamp: dataPoint[0],
       open: dataPoint[1],
       high: dataPoint[3],

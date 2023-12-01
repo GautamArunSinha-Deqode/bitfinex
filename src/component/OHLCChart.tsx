@@ -19,7 +19,7 @@ const OHLCChart = () => {
   const [ohlcData, setOHLCData] = useState([]);
 
   useEffect(() => {
-    const handleWebSocketData = (data) => {
+    const handleWebSocketData = (data:any) => {
       setTimeout(() => {
         setOHLCData(data);
       }, 2000);
@@ -27,7 +27,7 @@ const OHLCChart = () => {
     WebSocketFunc({ onDataReceived: handleWebSocketData });
     const getResponse = async (): Promise<void> => {
       const getData = await fetchApiData();
-      const candlestickData = [
+      const candlestickData:any = [
         {
           name: "candlesticks",
           data: getData?.map((dataPoint) => ({
