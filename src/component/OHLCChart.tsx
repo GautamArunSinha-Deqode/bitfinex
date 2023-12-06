@@ -7,6 +7,8 @@ import ApexChart from "./ApexChart";
 import WebSocketFunc from "./WebSocketFunc";
 import { Circles } from "react-loader-spinner";
 import styled from "styled-components";
+import Link from 'next/link';
+
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -44,10 +46,18 @@ const OHLCChart = () => {
   }, []);
 
   // console.log("dfjkjdf")
+  const handleClick = () => {
+    window.location.href = '/OrderBookPage';
+  };
+
+
 
   return (
     <div>
-      {ohlcData?.length > 0 ? (
+       <button onClick={handleClick}>Order Book</button>
+      {/* <Link href="/OrderBookPage" >Order Book </Link > */}
+
+      {ohlcData[0]?.data?.length > 0 ? (
         <ApexChart options={candelStickOptions} series={ohlcData} />
       ) : (
         <LoaderWrapper>

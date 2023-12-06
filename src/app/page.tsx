@@ -1,15 +1,16 @@
-import OHLCChart from '@/component/OHLCChart'
-import OrderBook from '@/component/OrderBook'
-import React from 'react'
-
+import OHLCChart from "@/component/OHLCChart";
+import Head from "next/head";
+import React from "react";
 
 const page = () => {
   return (
     <main>
+      <Head>
+        <title>OHCL Chart</title>
+      </Head>
       <OHLCChart />
-      <OrderBook />
     </main>
-  )
-}
+  );
+};
 
-export default page
+export default page;

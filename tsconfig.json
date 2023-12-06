@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/constant.js", "src/component/WebSocketFunc.js", "src/component/ApexChart.js", "src/pages/OrderBookPage.js"],
   "exclude": ["node_modules"]
 }

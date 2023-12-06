@@ -1,26 +1,6 @@
 const WebSocket = require("ws");
 const axios = require("axios");
 const wss = new WebSocket.Server({ port: 3001 });
-const generateRandomData = () => {
-  const timestamp = new Date().getTime();
-  const open = Math.random() * 1000 + 35000; // Random value around 35000
-  const high = open + Math.random() * 200;
-  const low = open - Math.random() * 200;
-  const close = open + (Math.random() - 0.5) * 50; // Random close value around open
-  const volume = Math.random() * 2; // Random volume
-
-  return {
-    timestamp,
-    open,
-    high,
-    low,
-    close,
-    volume,
-  };
-};
-
-
-
 
 const fetchApiData = async () => {
   const options = {
@@ -63,6 +43,7 @@ const fetchOrderBookData = async () => {
       options
     );
     const data = response.data;
+    return data
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -79,40 +60,45 @@ wss.on("connection", (ws) => {
   // You can send real-time updates to connected clients here
   console.log("WebSocket connection established", ws);
 
-  const interval = setInterval(() => {
-    // const newData =fetchApiData();
+  const ApiInterval = setInterval(() => {
     const getApiData = async () => {
       const newData = await fetchApiData();
+      const orderBookData = await fetchOrderBookData();
       console.log("websocket-data-setinterval", newData);
-      ws.send(JSON.stringify(newData));
+      ws.send(JSON.stringify({newData, orderBookData}));
     };
     getApiData();
   }, 5000);
 
+
+  // const OrderBookInterval = setInterval(() => {
+  //   const getOrderBookData = async () => {
+  //     const orderBookData = await fetchOrderBookData();
+  //     console.log("websocket-data-setinterval orderBookData", orderBookData);
+  //     ws.send(JSON.stringify({orderBookData}));
+  //   };
+  //   getOrderBookData();
+  // }, 5000);
+
+
+
   ws.on("close", () => {
-    clearInterval(interval);
+    clearInterval(ApiInterval);
+    // clearInterval(OrderBookInterval);
+
     console.log("WebSocket connection closed");
   });
 });
 
-//****************** ORDER BOOK WEBSOCKET *****************//
 
-// wss.on("connection", (ws) => {
-//   // You can send real-time updates to connected clients here
-//   console.log("WebSocket connection established");
 
-//   const interval = setInterval(() => {
-//     // const newData =fetchApiData();
-//     const getApiData = async () => {
-//       const newData = await fetchApiData();
-//       console.log("websocket-data-setinterval", newData);
-//       ws.send(JSON.stringify(newData));
-//     };
-//     getApiData();
-//   }, 3000);
 
-//   ws.on("close", () => {
-//     clearInterval(interval);
-//     console.log("WebSocket connection closed");
-//   });
-// });
+
+
+
+
+
+
+
+
+

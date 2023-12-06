@@ -7,13 +7,13 @@ import { OHLCData } from "@/APIS/api";
 const WebSocketFunc = ({ onDataReceived }) => {
   const socket = new W3CWebSocket("ws://localhost:3001");
   const handleWebSocketData = (event) => {
-    const newDataPoint = JSON.parse(event.data);
-    console.log("newDataPoint", newDataPoint);
+    const {newData} = JSON.parse(event.data);
+    console.log("newDataPoint", newData);
 
     const candlestickSocketData = [
       {
         name: "candlesticks",
-        data: newDataPoint?.map((dataPoint) => ({
+        data: newData?.map((dataPoint) => ({
           x: dataPoint.timestamp,
           y: [dataPoint.open, dataPoint.high, dataPoint.low, dataPoint.close],
         })),
@@ -24,7 +24,7 @@ const WebSocketFunc = ({ onDataReceived }) => {
 
   socket.onmessage = handleWebSocketData;
 
-  return <div>WebSocketFunc component</div>;
+  // return <div>WebSocketFunc component</div>;
 };
 export default WebSocketFunc;
 

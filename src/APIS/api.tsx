@@ -25,7 +25,6 @@ export const fetchApiData = async () => {
       options
     );
     const data = response.data;
-    // console.log("datadatadatadatadata" ,data);
     const ohlcData: OHLCData[] = data.map((dataPoint:any) => ({
       timestamp: dataPoint[0],
       open: dataPoint[1],
@@ -34,12 +33,9 @@ export const fetchApiData = async () => {
       close: dataPoint[2],
       volume: dataPoint[5],
     }));
-    // console.log("ohlcData" ,ohlcData);
     return ohlcData;
-    // res.status(200).json(data);
   } catch (error) {
     console.error("Error fetching data:", error);
-    // res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -52,7 +48,7 @@ export const fetchOrderBookData = async () => {
 
   try {
     const response = await axios.get(
-      "https://api-pub.bitfinex.com/v2/book/tBTCUSD/P0?len=25",
+      "https://api-pub.bitfinex.com/v2/book/fUSD/P0?len=25",
       options
     );
     const data = response.data;
