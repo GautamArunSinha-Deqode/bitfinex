@@ -1,31 +1,43 @@
 "use client";
 
 // import { fetchOrderBookData } from "@/APIS/api";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { OrderBook } from "@lab49/react-order-book";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import {numberWithCommas} from "../helper/NumberSaprator"
+import { numberWithCommas } from "../helper/NumberSaprator";
 
+interface OrderBookData {
+  asks: OrderBookEntry[];
+  bids: OrderBookEntry[];
+}
 
+interface OrderBookEntry {
+  price: number;
+  quantity: number;
+  total: number;
+  count: number;
+}
 const OrderBookCom = () => {
-  interface OrderBookData {
-    asks: OrderBookEntry[];
-    bids: OrderBookEntry[];
-  }
-
-  interface OrderBookEntry {
-    price: number;
-    quantity: number;
-    total: number;
-    count: number;
-  }
-
   const [orderBookData, setOrderBookData] = useState<OrderBookData>({
     asks: [],
     bids: [],
   });
+  const [connectionValue, setConnectionValue] = useState(true);
+  const ws: any = useRef(null);
+
 
   useEffect(() => {
+    handelSocektConnection();
+    // Clean up the WebSocket connection when the component unmounts
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
+  }, [orderBookData]);
+
+
+  const handelSocektConnection = () => {
     // Bitfinex WebSocket API endpoint
     const wsEndpoint = "wss://api.bitfinex.com/ws/2";
 
@@ -40,15 +52,15 @@ const OrderBookCom = () => {
     };
 
     // Create a WebSocket connection
-    const ws = new W3CWebSocket(wsEndpoint);
+    ws.current = new W3CWebSocket(wsEndpoint);
 
     // Event handler when the connection is open
-    ws.onopen = () => {
+    ws.current.onopen = () => {
       // Subscribe to the Order Books channel
-      ws.send(JSON.stringify(orderBooksSubscription));
+      ws.current.send(JSON.stringify(orderBooksSubscription));
     };
 
-    ws.onmessage = (message) => {
+    ws.current.onmessage = (message: any) => {
       const data = JSON.parse(message?.data.toString());
       console.log("datatypeof", data);
 
@@ -139,24 +151,21 @@ const OrderBookCom = () => {
     };
 
     // Event handler for errors
-    ws.onerror = (error) => {
+    ws.current.onerror = (error: any) => {
       console.error("WebSocket error:", error);
     };
 
     // Event handler when the connection is closed
-    ws.onclose = (event) => {
+    ws.current.onclose = (event: any) => {
       console.log("WebSocket closed:", event);
     };
+  };
 
-    // Clean up the WebSocket connection when the component unmounts
-    return () => {
-      ws.close();
-    };
-  }, [orderBookData]);
-  
+ 
+
   const orderRows = (arr: any) =>
     arr &&
-    arr.map((item: any, index: number) => (
+    arr.map((item: any) => (
       <tr key={`book-${item[0]}${item[1]}${item[2]}${item[3]}`}>
         <td> {item[1]} </td>
         <td> {item[2].toFixed(2)} </td>
@@ -165,21 +174,14 @@ const OrderBookCom = () => {
       </tr>
     ));
 
-    // Price: entry[0]
-    // Count: entry[1]
-    // Amount: entry[2]
-    // Total: entry[3]
+  // Price: entry[0]
+  // Count: entry[1]
+  // Amount: entry[2]
+  // Total: entry[3]
   const orderHead = (title: string) => (
     <thead>
+      <tr>{/* <th>{title}</th> */}</tr>
       <tr>
-        {/* <th>{title}</th> */}
-      </tr>
-      <tr>
-        {/* <th>Price </th>
-        <th>Size </th>
-        <th>Total </th>
-        <th>Count </th> */}
-
         <th>Count </th>
         <th>Amount </th>
         <th>Total </th>
@@ -188,9 +190,37 @@ const OrderBookCom = () => {
     </thead>
   );
 
+  const handelDisconnect = () => {
+    if (ws.current) {
+      ws.current.close();
+      setConnectionValue(false);
+    }
+  };
+
+  const handelConnect = () => {
+    handelSocektConnection();
+    setConnectionValue(true);
+  };
+
   return (
     <div>
       <h2>Order Book </h2>
+
+      {connectionValue ? (
+        <>
+          <button style={{ marginBottom: "10px" }} onClick={handelDisconnect}>
+            {" "}
+            Disconnect{" "}
+          </button>
+        </>
+      ) : (
+        <>
+          <button style={{ marginBottom: "10px" }} onClick={handelConnect}>
+            {" "}
+            Connect{" "}
+          </button>
+        </>
+      )}
 
       <div className="order-container">
         <>
@@ -201,9 +231,7 @@ const OrderBookCom = () => {
           &nbsp; &nbsp; &nbsp; &nbsp;
           <table>
             {orderHead("Asks")}
-            <tbody>
-              
-              {orderRows(orderBookData.asks)}</tbody>
+            <tbody>{orderRows(orderBookData.asks)}</tbody>
           </table>
         </>
       </div>
