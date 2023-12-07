@@ -2,11 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchApiData } from "@/APIS/api";
-import { candelStickOptions } from "@/constant";
 import ApexChart from "./ApexChart";
-import WebSocketFunc from "./WebSocketFunc";
+import WebSocketFunc from './WebSocketFunc';
+
+
 import { Circles } from "react-loader-spinner";
 import styled from "styled-components";
+import { candelStickOptions } from "@/constant/CandelStickConstant";
 // import Link from 'next/link';
 
 

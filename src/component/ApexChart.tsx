@@ -3,9 +3,15 @@ import dynamic from 'next/dynamic';
 // import ReactApexChart from 'react-apexcharts';
 const DynamicApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-const ApexChart = ({ options, series }) => {
-  const isBrowser = typeof window !== 'undefined';
+interface ApexChartContract {
+  options:any;
+  series:any[];
 
+}
+
+const ApexChart:React.FC<ApexChartContract> = ({ options, series }) => {
+  const isBrowser = typeof window !== 'undefined';
+console.log("optionsoptionsoptions", options)
   return (
     <div>
       {isBrowser && (
