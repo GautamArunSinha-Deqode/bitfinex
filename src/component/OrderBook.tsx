@@ -1,10 +1,9 @@
 "use client";
 
-// import { fetchOrderBookData } from "@/APIS/api";
 import React, { useEffect, useRef, useState } from "react";
-// import { OrderBook } from "@lab49/react-order-book";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { numberWithCommas } from "../helper/NumberSaprator";
+// import Loader from "./Loader";
 
 interface OrderBookData {
   asks: OrderBookEntry[];
@@ -235,6 +234,8 @@ const OrderBookCom = () => {
           </table>
         </>
       </div>
+
+      
     </div>
   );
 };
