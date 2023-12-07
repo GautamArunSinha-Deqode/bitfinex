@@ -7,7 +7,7 @@ import ApexChart from "./ApexChart";
 import WebSocketFunc from "./WebSocketFunc";
 import { Circles } from "react-loader-spinner";
 import styled from "styled-components";
-import Link from 'next/link';
+// import Link from 'next/link';
 
 
 const LoaderWrapper = styled.div`
@@ -18,7 +18,7 @@ const LoaderWrapper = styled.div`
 `;
 
 const OHLCChart = () => {
-  const [ohlcData, setOHLCData] = useState([]);
+  const [ohlcData, setOHLCData] = useState<any[]>([]);
 
   useEffect(() => {
     const handleWebSocketData = (data:any) => {
@@ -56,7 +56,7 @@ const OHLCChart = () => {
     <div>
        <button onClick={handleClick}>Order Book</button>
       {/* <Link href="/OrderBookPage" >Order Book </Link > */}
-
+      {/* property 'data' does not exist on type never */}
       {ohlcData[0]?.data?.length > 0 ? (
         <ApexChart options={candelStickOptions} series={ohlcData} />
       ) : (

@@ -1,58 +1,30 @@
 "use client";
 
-import { fetchOrderBookData } from "@/APIS/api";
+// import { fetchOrderBookData } from "@/APIS/api";
 import React, { useEffect, useState } from "react";
-import { OrderBook } from "@lab49/react-order-book";
+// import { OrderBook } from "@lab49/react-order-book";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const OrderBookTable = ({ bidOrders, askOrders }) => {
-  return (
-    <div>
-      <h3>Bid Orders</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bidOrders?.map((order, index) => (
-            <tr key={index}>
-              <td>{order.price}</td>
-              <td>{order.quantity}</td>
-              <td>{order.total}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
-      <h3>Ask Orders</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {askOrders?.map((order, index) => (
-            <tr key={index}>
-              <td>{order.price}</td>
-              <td>{order.quantity}</td>
-              <td>{order.total}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+
+
 
 const OrderBookCom = () => {
-  const [orderBookData, setOrderBookData] = useState({
+  
+  interface OrderBookData {
+    asks: OrderBookEntry[];
+    bids: OrderBookEntry[];
+  }
+
+  interface OrderBookEntry {
+    price: number;
+    quantity: number;
+    total: number;
+    count: number;
+  }
+  
+
+  const [orderBookData, setOrderBookData] = useState<OrderBookData>({
     asks: [],
     bids: [],
   });
@@ -81,8 +53,8 @@ const OrderBookCom = () => {
 
   
     ws.onmessage = (message) => {
-      const data = JSON.parse(message.data);
-
+      const data = JSON.parse(message?.data.toString());
+      console.log("datatypeof" , typeof data)
       if (data && Array.isArray(data) && data[1]) {
         const [channelId, orderBookEntries] = data;
   
@@ -99,8 +71,8 @@ const OrderBookCom = () => {
          
           if (isSnapshot) {
             setOrderBookData({
-              asks: orderBookEntries.filter(entry => entry[2] > 0),
-              bids: orderBookEntries.filter(entry => entry[2] < 0),
+              asks: orderBookEntries.filter((entry:any) => entry[2] > 0),
+              bids: orderBookEntries.filter((entry:any) => entry[2] < 0),
             });
           } else {
 
@@ -108,8 +80,8 @@ const OrderBookCom = () => {
 
             // Update the state with the new order book data
             setOrderBookData((prevOrderBookData) => {
-              const updatedAsks = [...prevOrderBookData.asks];
-              const updatedBids = [...prevOrderBookData.bids];
+              const updatedAsks: any[] = [...prevOrderBookData.asks];
+              const updatedBids: any[] = [...prevOrderBookData.bids];
 
               Object.keys(orderBookEntries).forEach((price) => {
                 const entry = orderBookEntries[price];
@@ -175,9 +147,9 @@ const OrderBookCom = () => {
     };
   }, []);
 
-  const orderRows = (arr) =>
+  const orderRows = (arr:any) =>
     arr &&
-    arr.map((item, index) => (
+    arr.map((item :any, index:number) => (
       <tr key={index}>
         <td> {item[0]} </td>
         <td> {item[1]} </td>
@@ -185,10 +157,10 @@ const OrderBookCom = () => {
         <td> {item[3]} </td>
       </tr>
     ));
-  const orderHead = (title) => (
+  const orderHead = (title:string) => (
     <thead>
       <tr>
-        <th colSpan="2">{title}</th>
+        <th >{title}</th>
       </tr>
       <tr>
         <th>Price </th>
