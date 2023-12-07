@@ -153,11 +153,11 @@ const OrderBookCom = () => {
       ws.close();
     };
   }, [orderBookData]);
-
+  
   const orderRows = (arr: any) =>
     arr &&
     arr.map((item: any, index: number) => (
-      <tr>
+      <tr key={`book-${item[0]}${item[1]}${item[2]}${item[3]}`}>
         <td> {item[1]} </td>
         <td> {item[2].toFixed(2)} </td>
         <td> {item[3]} </td>
