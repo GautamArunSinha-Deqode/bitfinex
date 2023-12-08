@@ -36,7 +36,6 @@ const OHLCChart = () => {
     getResponse();
   }, []);
 
-  // console.log("dfjkjdf")
   const handleClick = () => {
     window.location.href = "/OrderBookPage";
   };
