@@ -21,19 +21,25 @@ interface ApexChartContract {
     <div>
       {isBrowser &&
         (process.env.NODE_ENV !== "production" ? (
-          <DynamicApexCharts
+  <>
+     {     console.log("in production")}
+          <ReactApexChart
             options={options}
             series={series}
             type="candlestick"
             height={500}
           />
+  </>
         ) : (
+      <>
+       {     console.log("in development")}
           <DynamicApexCharts
             options={options}
             series={series}
             type="candlestick"
             height={500}
           />
+      </>
         ))}
     </div>
   );
