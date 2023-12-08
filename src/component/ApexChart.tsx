@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-import ReactApexChart from "react-apexcharts";
+// import ReactApexChart from "react-apexcharts";
 const DynamicApexCharts = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -20,7 +20,7 @@ interface ApexChartContract {
     <div>
       {isBrowser &&
         (process.env.NODE_ENV !== "production" ? (
-          <ReactApexChart
+          <DynamicApexCharts
             options={options}
             series={series}
             type="candlestick"
