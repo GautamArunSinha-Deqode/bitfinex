@@ -1,6 +1,5 @@
 import React from "react";
-import { DynamicApexCharts, ReactApexChart } from "./chartComponent"; 
-
+import {DynamicApexCharts} from './chartComponent'
 interface ApexChartContract {
   options: any;
   series: any[];
@@ -8,12 +7,12 @@ interface ApexChartContract {
 
 const ApexChart: React.FC<ApexChartContract> = ({ options, series }) => {
   const isBrowser = typeof window !== "undefined";
-  const ChartComponent = process.env.NODE_ENV !== "production" ? ReactApexChart : DynamicApexCharts;
-console.log("ChartComponent",ChartComponent)
+
+  console.log("typeof window", typeof window)
   return (
     <div>
-      {isBrowser && ChartComponent && (
-        <ChartComponent
+      {isBrowser && (
+        <DynamicApexCharts
           options={options}
           series={series}
           type="candlestick"
