@@ -43,16 +43,11 @@ const fetchOrderBookData = async () => {
       options
     );
     const data = response.data;
-    return data
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 };
-
-
-
-
-
 
 //****************** OHLC CHART WEBSOCKET *****************//
 
@@ -65,11 +60,10 @@ wss.on("connection", (ws) => {
       const newData = await fetchApiData();
       const orderBookData = await fetchOrderBookData();
       console.log("websocket-data-setinterval", newData);
-      ws.send(JSON.stringify({newData, orderBookData}));
+      ws.send(JSON.stringify({ newData, orderBookData }));
     };
     getApiData();
   }, 5000);
-
 
   // const OrderBookInterval = setInterval(() => {
   //   const getOrderBookData = async () => {
@@ -80,8 +74,6 @@ wss.on("connection", (ws) => {
   //   getOrderBookData();
   // }, 5000);
 
-
-
   ws.on("close", () => {
     clearInterval(ApiInterval);
     // clearInterval(OrderBookInterval);
@@ -89,16 +81,3 @@ wss.on("connection", (ws) => {
     console.log("WebSocket connection closed");
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-

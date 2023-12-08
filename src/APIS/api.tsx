@@ -12,7 +12,7 @@ export interface OHLCData {
 // export const fetchApiData = async (): Promise<OHLCData[]> => {
 
 export const fetchApiData = async () => {
-    const options = {
+  const options = {
     headers: {
       accept: "application/json",
     },
@@ -24,7 +24,7 @@ export const fetchApiData = async () => {
       options
     );
     const data = response.data;
-    const ohlcData: OHLCData[] = data.map((dataPoint:any) => ({
+    const ohlcData: OHLCData[] = data.map((dataPoint: any) => ({
       timestamp: dataPoint[0],
       open: dataPoint[1],
       high: dataPoint[3],

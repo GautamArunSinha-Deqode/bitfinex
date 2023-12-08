@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import ReactApexChart from "react-apexcharts";
-let DynamicApexCharts:any = null;
+let DynamicApexCharts: any = null;
 
 if (process.env.NODE_ENV !== "production") {
   // DynamicApexCharts = ReactApexChart

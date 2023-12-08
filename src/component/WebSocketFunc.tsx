@@ -1,8 +1,5 @@
 "use client";
-
-// import React, { useEffect } from "react";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-// import { OHLCData } from "@/APIS/api";
 
 interface WebSocketFuncContract {
   onDataReceived: (data: Object) => void;

@@ -6,7 +6,6 @@ import ApexChart from "./ApexChart";
 import WebSocketFunc from "./WebSocketFunc";
 import { candelStickOptions } from "@/constant/CandelStickConstant";
 import Loader from "./Loader";
-// import Link from 'next/link';
 
 const OHLCChart = () => {
   const [ohlcData, setOHLCData] = useState<any[]>([]);
@@ -42,8 +41,6 @@ const OHLCChart = () => {
 
   return (
     <div>
-      {/* <Link href="/OrderBookPage" >Order Book </Link > */}
-      {/* property 'data' does not exist on type never */}
       {ohlcData[0]?.data?.length > 0 ? (
         <>
           <button onClick={handleClick} style={{ marginBottom: "5px" }}>

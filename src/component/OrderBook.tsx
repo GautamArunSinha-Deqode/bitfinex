@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { numberWithCommas } from "../helper/NumberSaprator";
-// import Loader from "./Loader";
 
 interface OrderBookData {
   asks: OrderBookEntry[];
@@ -24,7 +23,6 @@ const OrderBookCom = () => {
   const [connectionValue, setConnectionValue] = useState(true);
   const ws: any = useRef(null);
 
-
   useEffect(() => {
     handelSocektConnection();
     // Clean up the WebSocket connection when the component unmounts
@@ -34,7 +32,6 @@ const OrderBookCom = () => {
       }
     };
   }, [orderBookData]);
-
 
   const handelSocektConnection = () => {
     // Bitfinex WebSocket API endpoint
@@ -160,8 +157,6 @@ const OrderBookCom = () => {
     };
   };
 
- 
-
   const orderRows = (arr: any) =>
     arr &&
     arr.map((item: any) => (
@@ -234,8 +229,6 @@ const OrderBookCom = () => {
           </table>
         </>
       </div>
-
-      
     </div>
   );
 };
