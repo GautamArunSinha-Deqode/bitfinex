@@ -8,7 +8,6 @@ const fetchApiData = async () => {
       accept: "application/json",
     },
   };
-
   try {
     const response = await axios.get(
       "https://api-pub.bitfinex.com/v2/candles/trade:15m:tBTCUSD/hist",
@@ -29,14 +28,12 @@ const fetchApiData = async () => {
     console.error("Error fetching data:", error);
   }
 };
-
 const fetchOrderBookData = async () => {
   const options = {
     headers: {
       accept: "application/json",
     },
   };
-
   try {
     const response = await axios.get(
       "https://api-pub.bitfinex.com/v2/book/tBTCUSD/P0?len=25",
@@ -65,19 +62,8 @@ wss.on("connection", (ws) => {
     getApiData();
   }, 5000);
 
-  // const OrderBookInterval = setInterval(() => {
-  //   const getOrderBookData = async () => {
-  //     const orderBookData = await fetchOrderBookData();
-  //     console.log("websocket-data-setinterval orderBookData", orderBookData);
-  //     ws.send(JSON.stringify({orderBookData}));
-  //   };
-  //   getOrderBookData();
-  // }, 5000);
-
   ws.on("close", () => {
     clearInterval(ApiInterval);
-    // clearInterval(OrderBookInterval);
-
     console.log("WebSocket connection closed");
   });
 });

@@ -4,3 +4,4 @@ export const numberWithCommas = (x: any) => {
   while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
   return x;
 };
+

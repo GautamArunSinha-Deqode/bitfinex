@@ -4,10 +4,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { numberWithCommas } from "../helper/NumberSaprator";
 
+
+
 interface OrderBookData {
   asks: OrderBookEntry[];
   bids: OrderBookEntry[];
 }
+
+
 
 interface OrderBookEntry {
   price: number;
@@ -16,11 +20,17 @@ interface OrderBookEntry {
   count: number;
 }
 const OrderBookCom = () => {
+
+
   const [orderBookData, setOrderBookData] = useState<OrderBookData>({
     asks: [],
     bids: [],
   });
   const [connectionValue, setConnectionValue] = useState(true);
+  const [precesion, setPrecesion] = useState(false);
+
+
+  
   const ws: any = useRef(null);
 
   useEffect(() => {
@@ -34,25 +44,20 @@ const OrderBookCom = () => {
   }, [orderBookData]);
 
   const handelSocektConnection = () => {
-    // Bitfinex WebSocket API endpoint
     const wsEndpoint = "wss://api.bitfinex.com/ws/2";
 
-    // Define the payload to subscribe to the Order Books channel
     const orderBooksSubscription = {
       event: "subscribe",
       channel: "book",
       freq: "F1",
       len: "25",
       symbol: "BTCUSD",
-      prec: "P0", // Precision, you may need to adjust this based on your requirements
+      prec: "P0",
     };
 
-    // Create a WebSocket connection
     ws.current = new W3CWebSocket(wsEndpoint);
 
-    // Event handler when the connection is open
     ws.current.onopen = () => {
-      // Subscribe to the Order Books channel
       ws.current.send(JSON.stringify(orderBooksSubscription));
     };
 
@@ -157,6 +162,20 @@ const OrderBookCom = () => {
     };
   };
 
+  const GetPrice = (data:number) =>{
+    let value = numberWithCommas(data)
+  if(precesion){
+    let numericValue = parseFloat(value);
+    if (!isNaN(numericValue)) {
+      value = numericValue.toFixed(2);
+    }
+  }
+    console.log("value", value)
+    console.log("value typeof", typeof value)
+
+    return value
+  }
+
   const orderRows = (arr: any) =>
     arr &&
     arr.map((item: any) => (
@@ -164,17 +183,12 @@ const OrderBookCom = () => {
         <td> {item[1]} </td>
         <td> {item[2].toFixed(2)} </td>
         <td> {item[3]} </td>
-        <td> {numberWithCommas(item[0])} </td>
+        <td> {GetPrice(item[0])} </td>
       </tr>
     ));
 
-  // Price: entry[0]
-  // Count: entry[1]
-  // Amount: entry[2]
-  // Total: entry[3]
-  const orderHead = (title: string) => (
+  const orderHead = () => (
     <thead>
-      <tr>{/* <th>{title}</th> */}</tr>
       <tr>
         <th>Count </th>
         <th>Amount </th>
@@ -196,35 +210,46 @@ const OrderBookCom = () => {
     setConnectionValue(true);
   };
 
+  const handelPrecesion = () =>{
+    console.log("precesion inside function", precesion)
+    let precesionValue = precesion ? false : true
+    setPrecesion(precesionValue)
+  }
   return (
     <div>
       <h2>Order Book </h2>
 
-      {connectionValue ? (
-        <>
-          <button style={{ marginBottom: "10px" }} onClick={handelDisconnect}>
-            {" "}
-            Disconnect{" "}
-          </button>
-        </>
-      ) : (
-        <>
-          <button style={{ marginBottom: "10px" }} onClick={handelConnect}>
-            {" "}
-            Connect{" "}
-          </button>
-        </>
-      )}
+      <div style={{display:'flex' , gap:'10px'}}>
+        {connectionValue ? (
+          <>
+            <button style={{ marginBottom: "10px" }} onClick={handelDisconnect}>
+              {" "}
+              Disconnect{" "}
+            </button>
+          </>
+        ) : (
+          <>
+            <button style={{ marginBottom: "10px" }} onClick={handelConnect}>
+              {" "}
+              Connect{" "}
+            </button>
+          </>
+        )}
+        <button style={{ marginBottom: "10px" }} onClick={handelPrecesion}>
+          {" "}
+          precesion{" "}
+        </button>
+      </div>
 
       <div className="order-container">
         <>
           <table>
-            {orderHead("Bids")}
+            {orderHead()}
             <tbody>{orderRows(orderBookData.bids)}</tbody>
           </table>
           &nbsp; &nbsp; &nbsp; &nbsp;
           <table>
-            {orderHead("Asks")}
+            {orderHead()}
             <tbody>{orderRows(orderBookData.asks)}</tbody>
           </table>
         </>
@@ -234,3 +259,7 @@ const OrderBookCom = () => {
 };
 
 export default OrderBookCom;
+// Price: entry[0]
+// Count: entry[1]
+// Amount: entry[2]
+// Total: entry[3]
