@@ -23,7 +23,7 @@ interface ApexChartContract {
         (process.env.NODE_ENV !== "production" ? (
   <>
      {     console.log("in production")}
-          <ReactApexChart
+          <DynamicApexCharts
             options={options}
             series={series}
             type="candlestick"
