@@ -1,6 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const handleSocketConnection = (setOHLCDataCallback:any) => {
+const handleSocketConnection = (setOHLCDataCallback: any) => {
   const wsEndpoint = "wss://api-pub.bitfinex.com/ws/2";
   const OHLCSubscription = {
     event: "subscribe",
@@ -34,7 +34,12 @@ const handleSocketConnection = (setOHLCDataCallback:any) => {
             name: "candlesticks",
             data: ohlcData?.map((dataPoint) => ({
               x: dataPoint.timestamp,
-              y: [dataPoint.open, dataPoint.high, dataPoint.low, dataPoint.close],
+              y: [
+                dataPoint.open,
+                dataPoint.high,
+                dataPoint.low,
+                dataPoint.close,
+              ],
             })),
           },
         ];
@@ -50,7 +55,7 @@ const handleSocketConnection = (setOHLCDataCallback:any) => {
     console.log("WebSocket closed:", event);
   };
 
-  return ws; 
+  return ws;
 };
 
 export default handleSocketConnection;

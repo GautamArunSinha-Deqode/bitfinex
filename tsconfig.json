@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/constant/constant.tsx", "src/component/WebSocketFunc.tsx", "src/component/ChartComponent/ApexChart.tsx", "src/pages/OrderBookPage.js", "src/APIS/websocket-server.js", "src/component/chartComponent.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/constant/constant.tsx", "src/component/WebSocketFunc.tsx", "src/component/ChartComponent/ApexChart.tsx", "src/pages/OrderBookPage.tsx", "src/APIS/websocket-server.tsx", "src/component/chartComponent.js"],
   "exclude": ["node_modules"]
 }

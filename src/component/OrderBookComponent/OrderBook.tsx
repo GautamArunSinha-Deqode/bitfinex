@@ -42,7 +42,6 @@ const OrderBookCom = () => {
       }
     }
 
-
     return value;
   };
 
