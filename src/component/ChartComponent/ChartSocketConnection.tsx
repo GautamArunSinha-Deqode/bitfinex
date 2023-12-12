@@ -16,7 +16,6 @@ const handleSocketConnection = (setOHLCDataCallback: any) => {
 
   ws.onmessage = (message) => {
     const data = JSON.parse(message?.data.toString());
-
     if (data && Array.isArray(data) && data[1]) {
       const [, OHLCEntries] = data;
       if (OHLCEntries?.length > 0 && Array.isArray(OHLCEntries)) {
