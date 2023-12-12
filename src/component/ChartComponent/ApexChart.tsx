@@ -1,5 +1,5 @@
 import React from "react";
-import { DynamicApexCharts } from "./chartComponent";
+import { DynamicApexCharts } from "./chart";
 interface ApexChartContract {
   options: any;
   series: any[];
