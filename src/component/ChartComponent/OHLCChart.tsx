@@ -1,27 +1,16 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import ApexChart from "./ApexChart";
 import { candelStickOptions } from "@/constant/CandelStickConstant";
+import React from "react";
 import Loader from "../LoadersComponent/Loader";
-import handleSocketConnection from "./ChartSocketConnection";
+import ApexChart from "./ApexChart";
+import useSocketConnection from "./useSocketConnection";
 
 const OHLCChart = () => {
-  const [ohlcData, setOHLCData] = useState<any[]>([]);
-  const ws: any = useRef(null);
-  useEffect(() => {
-    ws.current = handleSocketConnection(setOHLCData);
-    return () => {
-      if (ws.current) {
-        ws.current.close();
-      }
-    };
-  }, [ohlcData]);
-
+  const { ohlcData } = useSocketConnection();
   const handleClick = () => {
     window.location.href = "/OrderBookPage";
   };
-  console.log("ohlcData  ohlcData ohlcData", ohlcData);
   return (
     <div>
       {ohlcData[0]?.data?.length > 0 && ohlcData[0]?.data[0]?.x ? (

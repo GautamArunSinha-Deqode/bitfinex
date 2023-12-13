@@ -1,11 +1,12 @@
+import { ChartConstant } from "@/constant/AllConstant";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const handleSocketConnection = (setOHLCDataCallback: any) => {
-  const wsEndpoint = "wss://api-pub.bitfinex.com/ws/2";
+  const wsEndpoint = ChartConstant.wsEndpointApi;
   const OHLCSubscription = {
-    event: "subscribe",
-    channel: "candles",
-    key: `trade:15m:tBTCUSD`,
+    event: ChartConstant.subscription_event,
+    channel: ChartConstant.subscription_channel,
+    key: ChartConstant.subscription_key,
   };
 
   const ws = new W3CWebSocket(wsEndpoint);
@@ -30,7 +31,7 @@ const handleSocketConnection = (setOHLCDataCallback: any) => {
 
         const candlestickData = [
           {
-            name: "candlesticks",
+            name: ChartConstant.candlestick_name,
             data: ohlcData?.map((dataPoint) => ({
               x: dataPoint.timestamp,
               y: [
@@ -53,7 +54,6 @@ const handleSocketConnection = (setOHLCDataCallback: any) => {
   ws.onclose = (event) => {
     console.log("WebSocket closed:", event);
   };
-
   return ws;
 };
 

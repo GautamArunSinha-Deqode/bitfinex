@@ -1,7 +1,7 @@
 import OrderBookCom from "@/component/OrderBookComponent/OrderBook";
+import Head from "next/head";
 import React from "react";
 import "../app/globals.css";
-import Head from "next/head";
 
 const OrderBookPage = () => {
   return (
