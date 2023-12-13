@@ -1,14 +1,10 @@
+import { ApexChartContract } from "@/component/ChartComponent/@type";
 import React from "react";
 import { DynamicApexCharts } from "./chart";
-interface ApexChartContract {
-  options: any;
-  series: any[];
-}
 
 const ApexChart: React.FC<ApexChartContract> = ({ options, series }) => {
   const isBrowser = typeof window !== "undefined";
 
-  console.log("typeof window", typeof window);
   return (
     <div>
       {isBrowser && (

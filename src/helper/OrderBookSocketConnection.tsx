@@ -1,15 +1,17 @@
+import { OrderBookConstant } from "@/constant/AllConstant";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
-  const wsEndpoint = "wss://api.bitfinex.com/ws/2";
 
+
+const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
+  const wsEndpoint = OrderBookConstant.wsEndpointApi;
   const orderBooksSubscription = {
-    event: "subscribe",
-    channel: "book",
-    freq: "F1",
-    len: "25",
-    symbol: "BTCUSD",
-    prec: "P0",
+    event: OrderBookConstant.subscription_event,
+    channel: OrderBookConstant.subscription_channel,
+    freq: OrderBookConstant.subscription_freq,
+    len: OrderBookConstant.subscription_len,
+    symbol: OrderBookConstant.subscription_symbol,
+    prec: OrderBookConstant.subscription_prec,
   };
 
   const ws = new W3CWebSocket(wsEndpoint);
@@ -32,7 +34,6 @@ const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
         const isSnapshot = Object.keys(orderBookEntries).length > 4;
 
         if (isSnapshot) {
-          // Snapshot
           setOrderBookDataCallback({
             asks: orderBookEntries
               .filter((entry: any) => entry[2] > 0)
