@@ -15,3 +15,9 @@ export const ChartConstant = {
   subscription_key: "trade:15m:tBTCUSD",
   candlestick_name: "candlesticks"
 };
+
+
+export const enviornment = {
+  production:"production",
+  development:"development"
+}

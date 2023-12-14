@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { w3cwebsocket } from "websocket";
 import handelOrderBookSocektConnection from "../../helper/OrderBookSocketConnection";
 import { OrderBookData } from "./@type";
 
@@ -9,8 +10,7 @@ const useSocketConnectionOrderBook = () => {
   });
   const [connectionValue, setConnectionValue] = useState<boolean>(true);
 
-  const ws: any = useRef(null);
-
+  const ws: React.MutableRefObject<w3cwebsocket | null> = useRef(null);
   useEffect(() => {
     ws.current = handelOrderBookSocektConnection(setOrderBookData);
     return () => {

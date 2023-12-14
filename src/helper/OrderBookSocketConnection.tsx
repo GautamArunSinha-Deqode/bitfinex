@@ -1,9 +1,13 @@
+import {
+  OrderBookData, SetOrderBookData,
+} from "@/component/OrderBookComponent/@type";
 import { OrderBookConstant } from "@/constant/AllConstant";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 
 
-
-const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
+const handelOrderBookSocektConnection = (
+  setOrderBookData: SetOrderBookData
+) => {
   const wsEndpoint = OrderBookConstant.wsEndpointApi;
   const orderBooksSubscription = {
     event: OrderBookConstant.subscription_event,
@@ -20,7 +24,7 @@ const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
     ws.send(JSON.stringify(orderBooksSubscription));
   };
 
-  ws.onmessage = (message: any) => {
+  ws.onmessage = (message: IMessageEvent) => {
     const data = JSON.parse(message?.data.toString());
 
     if (data && Array.isArray(data) && data[1]) {
@@ -34,30 +38,29 @@ const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
         const isSnapshot = Object.keys(orderBookEntries).length > 4;
 
         if (isSnapshot) {
-          setOrderBookDataCallback({
+          setOrderBookData({
             asks: orderBookEntries
-              .filter((entry: any) => entry[2] > 0)
-              .map((entry: any) => [
-                parseFloat(entry[0]),
+              .filter((entry: number[]) => entry[2] > 0)
+              .map((entry: number[]) => [
+                parseFloat(entry[0].toString()),
                 entry[1],
-                entry[1] * parseFloat(entry[0]),
+                entry[1] * parseFloat(entry[0].toString()),
                 entry[2],
               ]),
             bids: orderBookEntries
-              .filter((entry: any) => entry[2] < 0)
-              .map((entry: any) => [
-                parseFloat(entry[0]),
+              .filter((entry: number[]) => entry[2] < 0)
+              .map((entry: number[]) => [
+                parseFloat(entry[0].toString()),
                 entry[1],
-                entry[1] * parseFloat(entry[0]),
+                entry[1] * parseFloat(entry[0].toString()),
                 entry[2],
               ]),
           });
         } else {
-          // Update
-          setOrderBookDataCallback((prevOrderBookData: any) => {
+          setOrderBookData((prevOrderBookData: OrderBookData) => {
             const updatedAsks: any[] = [...prevOrderBookData.asks];
             const updatedBids: any[] = [...prevOrderBookData.bids];
-
+            console.log("updatedAsks", updatedAsks);
             Object.keys(orderBookEntries).forEach((price) => {
               if (!isNaN(parseFloat(price))) {
                 const entry = orderBookEntries[price];
@@ -109,12 +112,12 @@ const handelOrderBookSocektConnection = (setOrderBookDataCallback: any) => {
   };
 
   // Event handler for errors
-  ws.onerror = (error: any) => {
+  ws.onerror = (error: Error) => {
     console.error("WebSocket error:", error);
   };
 
   // Event handler when the connection is closed
-  ws.onclose = (event: any) => {
+  ws.onclose = (event: CloseEventInit) => {
     console.log("WebSocket closed:", event);
   };
   return ws;

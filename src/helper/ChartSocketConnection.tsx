@@ -1,7 +1,10 @@
+
+import { setOHLCDataContract } from "@/component/ChartComponent/@type";
 import { ChartConstant } from "@/constant/AllConstant";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const handleSocketConnection = (setOHLCDataCallback: any) => {
+
+const handleSocketConnection = (setOHLCData:setOHLCDataContract[]) => {
   const wsEndpoint = ChartConstant.wsEndpointApi;
   const OHLCSubscription = {
     event: ChartConstant.subscription_event,
@@ -43,15 +46,15 @@ const handleSocketConnection = (setOHLCDataCallback: any) => {
             })),
           },
         ];
-        setOHLCDataCallback(candlestickData);
+        setOHLCData(candlestickData);
       }
     }
   };
 
-  ws.onerror = (error) => {
+  ws.onerror = (error: Error) => {
     console.error("WebSocket error:", error);
   };
-  ws.onclose = (event) => {
+  ws.onclose = (event : CloseEventInit) => {
     console.log("WebSocket closed:", event);
   };
   return ws;

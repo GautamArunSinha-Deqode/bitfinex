@@ -1,22 +1,26 @@
+import {
+  OrderBookEntry,
+  OrderBookTableContract,
+} from "@/component/OrderBookComponent/@type";
 import { getOrderPrice } from "@/utils/AllUtils";
-import React, { useState } from "react";
-import {OrderBookTableContract} from "@/component/OrderBookComponent/@type"
+import React from "react";
 
-
-
-
-const OrderBookTable: React.FC<OrderBookTableContract> = ({orderBookData}) => {
-  const [precesion, setPrecesion] = useState(false);
-
-  const orderRows = (arr: any) =>
+const OrderBookTable: React.FC<OrderBookTableContract> = ({
+  orderBookData,
+  precesion,
+}) => {
+  const orderRows = (arr: OrderBookEntry[]) =>
     arr &&
     arr.map((item: any) => (
-      <tr key={`book-${item[0]}${item[1]}${item[2]}${item[3]}`}>
-        <td> {item[1]} </td>
-        <td> {item[2].toFixed(2)} </td>
-        <td> {item[3]} </td>
-        <td> {getOrderPrice(item[0], precesion)} </td>
-      </tr>
+      <>
+        {console.log("item", item)}
+        <tr key={`book-${item[0]}${item[1]}${item[2]}${item[3]}`}>
+          <td> {item[1]} </td>
+          <td> {item[2].toFixed(2)} </td>
+          <td> {item[3]} </td>
+          <td> {getOrderPrice(item[0], precesion)} </td>
+        </tr>
+      </>
     ));
 
   const orderHead = () => (
@@ -32,11 +36,10 @@ const OrderBookTable: React.FC<OrderBookTableContract> = ({orderBookData}) => {
 
   return (
     <>
-      <table>
+      <table className="orderTable">
         {orderHead()}
         <tbody>{orderRows(orderBookData.bids)}</tbody>
       </table>
-      &nbsp; &nbsp; &nbsp; &nbsp;
       <table>
         {orderHead()}
         <tbody>{orderRows(orderBookData.asks)}</tbody>

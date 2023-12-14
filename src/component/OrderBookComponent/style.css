@@ -1,0 +1,31 @@
+.flexContainer {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .buttonContainer {
+    margin-bottom: 10px;
+  }
+  
+
+  /* styles.css */
+
+.orderTable {
+    margin-right: 20px; /* Add margin as needed */
+  }
+  
+
+  .orderTableContainer {
+    display: flex;
+    gap: 20px; /* Adjust the gap as needed for spacing */
+  }
+
+  .order-container {
+    display: flex;
+    width: 100%;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+  }

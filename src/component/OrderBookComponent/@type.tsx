@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface OrderBookData {
   asks: OrderBookEntry[];
   bids: OrderBookEntry[];
@@ -13,7 +15,20 @@ export interface OrderBookEntry {
 
 export interface OrderBookTableContract {
     orderBookData: {
-        bids: number[];
-        asks: number[];
+        bids: OrderBookEntry[];
+        asks: OrderBookEntry[];
       };
+      precesion:boolean
   }
+
+
+export interface orderRowsContract {
+  orderBookData: {
+    bids: OrderBookEntry[];
+    asks: OrderBookEntry[];
+  };
+
+}
+
+
+export type SetOrderBookData = Dispatch<SetStateAction<OrderBookData>>;

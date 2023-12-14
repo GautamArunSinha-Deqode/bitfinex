@@ -1,7 +1,6 @@
-export const numberWithCommas = (x: any) => {
-  x = x.toString();
+export const numberWithCommas = (price: number) => {
+  let newPrice: string = price.toString();
   var pattern = /(-?\d+)(\d{3})/;
-  while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
-  return x;
+  while (pattern.test(newPrice)) newPrice = newPrice.replace(pattern, "$1,$2");
+  return newPrice;
 };
-

@@ -1,12 +1,4 @@
-.order-container {
-    display: flex;
-    width: 100%;
-  }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-  }
+
   h1,
   h2 {
     text-align: center;
